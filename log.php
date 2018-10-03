@@ -1,7 +1,6 @@
 <?php
-$connect = mysqli_connect("localhost", "USERNAME", "PASSWORD", "bec_chat");//MYSQL details
-$date = date('Y-m-d H:i:s');
-$file = file('chat.log');
+$connect = mysqli_connect("localhost", "USERNAME", "PASSWORD", "bec_chat");//MySQL details
+$file = file('chat.log');//file name
 //$file = array_reverse(file('chat.log'));//if we want to have the newest message first
 $start = strlen('00:00:00 : Side: ');
 function chat_type($string)
@@ -45,5 +44,5 @@ foreach ($file as $line) {
         $sql = "INSERT INTO `server1` (`type`, `time`, `player`, `message`, `date`) VALUES ('$type', '$time', '$player', '$message', '$date')";//MYSQL query
         $result = mysqli_query($connect, $sql);
     }
-    echo "$sql<br>";
+    echo "$sql<br>";//output what our query was
 }
