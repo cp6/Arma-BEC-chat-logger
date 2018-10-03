@@ -25,6 +25,10 @@
         .orange {
             color: #d27d5a;
         }
+		@media (max-width: 480px) {
+			.orange { display: none;
+			}
+		}
     </style>
 </head>
     <body>
