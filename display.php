@@ -1,5 +1,6 @@
 <html>
 <head>
+    <title>Arma server BEC chat logs</title>
     <style>
         p {
             display: inline;
