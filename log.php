@@ -1,5 +1,5 @@
 <?php
-$mysql_connect = mysqli_connect("localhost", "USERNAME", "PASSWORD", "bec_chat");//MySQL details
+$db = new PDO('mysql:host=127.0.0.1;dbname=bec_chat;charset=utf8mb4', 'username', 'password');
 
 function chatLogFile(string $filename, bool $newest_first = false): array
 {
@@ -44,10 +44,13 @@ foreach ($file as $line) {
     } else {
         $message = $ar[5];
     }
-    $select = mysqli_query($mysql_connect, "SELECT `message` FROM `server1` WHERE `type` = '" . $type . "' AND `time` = '" . $time . "'");
-    if (mysqli_num_rows($select) === 0) {//Doesnt exist yet
-        $insert_q = "INSERT INTO `server1` (`type`, `time`, `player`, `message`) VALUES ('$type', '$time', '$player', '$message')";//MYSQL query
-        $insert = mysqli_query($mysql_connect, $insert_q);
+
+    $select = $db->prepare("SELECT `message` FROM `server1` WHERE `type` = ? AND `time` = ?;");
+    $select->execute([$type, $time]);
+    $row = $select->fetch(PDO::FETCH_ASSOC);
+    if (empty($row)) {//Row not found
+        $insert = $db->prepare("INSERT INTO `server1` (`type`, `time`, `player`, `message`) VALUES (?, ?, ?, ?);");
+        $insert->execute([$type, $time, $message, $player]);
+        echo "INSERTED: [$type][$time][$player][$message]<br>";
     }
-    echo $insert_q . '<br>';//output query
 }
