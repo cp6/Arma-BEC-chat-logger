@@ -38,8 +38,8 @@ foreach ($file as $line) {
     $arr = explode(":", substr($line, $start), 2);
     $player = $ar[4];
     if (isset($ar[6])) {
-        $one = str_replace(array("(", ")"), array("(:", "):"), $ar[5]);
-        $two = str_replace(array(")", "("), array("):", "(:"), $ar[6]);
+        $one = str_replace(["(", ")"], ["(:", "):"], $ar[5]);
+        $two = str_replace([")", "("], ["):", "(:"], $ar[6]);
         $message = "$one $two";
     } else {
         $message = $ar[5];
