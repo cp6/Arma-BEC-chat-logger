@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 <head>
     <title>Arma server BEC chat logs</title>
     <style>
@@ -39,11 +39,8 @@
 $db = new PDO('mysql:host=127.0.0.1;dbname=bec_chat;charset=utf8mb4', 'username', 'password');
 $select = $db->query("SELECT `player`, `message`, `date` FROM `server1` WHERE `type` = 0 ORDER BY `id` DESC LIMIT 250;");
 while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
-    $player = $row["player"];
-    $message = $row["message"];
-    $db_date = $row["date"];
-    $datetime = date("g:i:s A D jS M", strtotime($db_date));
-    echo "<p class='pink'>$player</p> <p class='green'>:</p> <p class='blue'>$message</p> <p class='orange'>$datetime</p><br>";//Output data with styles
+    $datetime_formatted = date("g:i:s A D jS M", strtotime($row["date"]));
+    echo "<p class='pink'>{$row["player"]}</p> <p class='green'>:</p> <p class='blue'>{$row["message"]}</p> <p class='orange'>$datetime_formatted</p><br>";//Output data with styles
 }
 ?>
 </body>
