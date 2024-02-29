@@ -1,5 +1,4 @@
 <?php
-$db = new PDO('mysql:host=127.0.0.1;dbname=bec_chat;charset=utf8mb4', 'username', 'password');
 
 function chatLogFile(string $filename, bool $newest_first = false): array
 {
@@ -9,7 +8,7 @@ function chatLogFile(string $filename, bool $newest_first = false): array
     return file($filename);//file name
 }
 
-function chat_type(string $string): int
+function chatType(string $string): int
 {
     if (str_contains($string, 'Side')) {
         return 0;
@@ -28,14 +27,15 @@ function chat_type(string $string): int
     }
 }
 
+$db = new PDO('mysql:host=127.0.0.1;dbname=bec_chat;charset=utf8mb4', 'username', 'password');
+
 $file = chatLogFile('chat.log');//Chat log file
 
-$start = strlen('00:00:00 : Side: ');
 foreach ($file as $line) {
     $ar = explode(":", $line);
     $time = "$ar[0]:$ar[1]:$ar[2]";
-    $type = chat_type($ar[3]);
-    $arr = explode(":", substr($line, $start), 2);
+    $type = chatType($ar[3]);
+    $arr = explode(":", substr($line, strlen('00:00:00 : Side: ')), 2);
     $player = $ar[4];
     if (isset($ar[6])) {
         $one = str_replace(["(", ")"], ["(:", "):"], $ar[5]);
